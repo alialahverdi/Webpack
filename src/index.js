@@ -1,5 +1,5 @@
-function App() {
-    console.log('start')
+const showMessage = (message) => {
+    alert(message)
 }
 
-export default App
+showMessage('This is sample message for webpack')
