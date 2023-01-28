@@ -2,4 +2,4 @@ const showMessage = (message) => {
     alert(message)
 }
 
-showMessage('This is sample message for webpack')
+showMessage('This is sample message for ali')
