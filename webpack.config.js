@@ -1,12 +1,20 @@
 const path = require("path");
 
-const isProd = process.env.NODE_ENV === 'production';
+const isDevelopment = process.env.NODE_ENV === 'development';
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+const webpack = require("webpack");
 
 
 module.exports = {
+    mode: isDevelopment ? "development" : "production",
+    devServer: {
+        hot: true,
+        open: true
+    },
+    target: "web",
     entry: path.resolve(__dirname, "src/index.tsx"),
     output: {
         path: path.resolve(__dirname, "build"),
@@ -25,6 +33,8 @@ module.exports = {
             template: path.resolve(__dirname, "public/index.html")
         }),
         new MiniCssExtractPlugin(),
+        isDevelopment && new webpack.HotModuleReplacementPlugin(),
+        isDevelopment && new ReactRefreshWebpackPlugin(),
     ],
     module: {
         /** "rules"
@@ -37,11 +47,16 @@ module.exports = {
             {
                 test: /\.(js|ts)x?$/i,
                 exclude: /node_module/,
-                use: "babel-loader"
+                use: {
+                    loader: require.resolve("babel-loader"),
+                    options: {
+                        plugins: [isDevelopment && require.resolve('react-refresh/babel')].filter(Boolean),
+                    },
+                },
             },
             {
                 test: /\.css$/i,
-                use: [isProd ? MiniCssExtractPlugin.loader : "style-loader", {
+                use: [isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader, {
                     loader: "css-loader",
                     options: { modules: true }
                 }]
