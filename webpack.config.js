@@ -23,12 +23,7 @@ module.exports = {
             {
                 test: /\.(js)$/i,
                 exclude: /node_module/,
-                use: {
-                    loader: "babel-loader",
-                    options: {
-                        preset: ["@babel/preset-env"]
-                    }
-                }
+                use: "babel-loader"
             },
             {
                 test: /\.css$/i,
