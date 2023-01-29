@@ -11,5 +11,17 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, "public/index.html")
         })
-    ]
+    ],
+    module: {
+        rules: [
+            {
+                test: /\.css$/i,
+                use: ["style-loader", "css-loader"]
+            },
+            {
+                test: /\.(png|jpe?g|svg|gif|eot|ttf|woff|woff2)$/i,
+                type: "asset"
+            },
+        ]
+    }
 }
