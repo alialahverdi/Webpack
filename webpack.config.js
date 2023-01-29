@@ -12,6 +12,9 @@ module.exports = {
         path: path.resolve(__dirname, "build"),
         filename: "bundle.js"
     },
+    resolve: {
+        extensions: ["*", ".js", ".jsx", ".tsx", ".ts"],
+    },
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, "public/index.html")
@@ -21,7 +24,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(js)$/i,
+                test: /\.(js|ts)x?$/i,
                 exclude: /node_module/,
                 use: {
                     loader: "babel-loader",
