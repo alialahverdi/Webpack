@@ -41,7 +41,10 @@ module.exports = {
             },
             {
                 test: /\.css$/i,
-                use: [isProd ? MiniCssExtractPlugin.loader : "style-loader", "css-loader"]
+                use: [isProd ? MiniCssExtractPlugin.loader : "style-loader", {
+                    loader: "css-loader",
+                    options: { modules: true }
+                }]
             },
             {
                 test: /\.(png|jpe?g|svg|gif|eot|ttf|woff|woff2)$/i,
