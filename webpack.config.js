@@ -21,6 +21,16 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.(js)$/i,
+                exclude: /node_module/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        preset: ["@babel/preset-env"]
+                    }
+                }
+            },
+            {
                 test: /\.css$/i,
                 use: [isProd ? MiniCssExtractPlugin.loader : "style-loader", "css-loader"]
             },
