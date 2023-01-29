@@ -1,1 +1,1 @@
-alert("This is sample message for webpack");
+(()=>{"use strict";alert("This is sample message for ali")})();
