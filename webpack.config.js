@@ -18,23 +18,17 @@ module.exports = {
     entry: path.resolve(__dirname, "src/index.tsx"),
     output: {
         path: path.resolve(__dirname, "build"),
-        filename: "bundle.js"
-    },
-    resolve: {
-        /** "extensions" 
-         * If multiple files share the same name but have different extensions, webpack will 
-         * resolve the one with the extension listed first in the array and skip the rest. 
-         * This is what enables users to leave off the extension when importing
-         */
-        extensions: ["*", ".js", ".jsx", ".tsx", ".ts"],
+        filename: "bundle.[hash].js"
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, "public/index.html")
         }),
-        new MiniCssExtractPlugin(),
-        isDevelopment && new webpack.HotModuleReplacementPlugin(),
-        isDevelopment && new ReactRefreshWebpackPlugin(),
+        new MiniCssExtractPlugin({
+            filename: "bundle.[hash].css"
+        }),
+        // isDevelopment && new webpack.HotModuleReplacementPlugin(), // for production remove this line
+        // isDevelopment && new ReactRefreshWebpackPlugin(), // for production remove this line
     ],
     module: {
         /** "rules"
