@@ -4,6 +4,7 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const webpack = require("webpack");
 
@@ -11,24 +12,41 @@ const webpack = require("webpack");
 module.exports = {
     mode: isDevelopment ? "development" : "production",
     devServer: {
+        /** "open" 
+         * opens the browser after server is successfully started
+        */
         hot: true,
+        /** "hot"
+         * enabling and disabling HMR. takes "true", "false" and "only". 
+         * "only" is used if enable Hot Module Replacement without page 
+         * refresh as a fallback in case of build failures
+         */
         open: true
     },
-    target: "web",
+    devtool: isDevelopment ? 'source-map' : undefined,
     entry: path.resolve(__dirname, "src/index.tsx"),
     output: {
         path: path.resolve(__dirname, "build"),
         filename: "bundle.[hash].js"
+    },
+    resolve: {
+        /** "extensions" 
+         * If multiple files share the same name but have different extensions, webpack will 
+         * resolve the one with the extension listed first in the array and skip the rest. 
+         * This is what enables users to leave off the extension when importing
+         */
+        extensions: ["*", ".js", ".jsx", ".tsx", ".ts", ".json"], // Enable for compinents in react 
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, "public/index.html")
         }),
         new MiniCssExtractPlugin({
-            filename: "bundle.[hash].css"
+            filename: "styles.[hash].css"
         }),
-        // isDevelopment && new webpack.HotModuleReplacementPlugin(), // for production remove this line
-        // isDevelopment && new ReactRefreshWebpackPlugin(), // for production remove this line
+        new CleanWebpackPlugin(),
+        isDevelopment && new webpack.HotModuleReplacementPlugin(), // for production remove this line
+        isDevelopment && new ReactRefreshWebpackPlugin(), // for production remove this line
     ],
     module: {
         /** "rules"
